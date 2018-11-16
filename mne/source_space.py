@@ -2636,7 +2636,7 @@ def morph_source_spaces(src_from, subject_to, surf='white', subject_from=None,
         for key in ('neighbor_tri', 'tri_area', 'tri_cent', 'tri_nn',
                     'use_tris'):
             del to[key]
-        to['vertno'] = np.sort(best[fro['vertno']])
+        to['vertno'] = best[fro['vertno']]
         to['inuse'] = np.zeros(len(to['rr']), int)
         to['inuse'][to['vertno']] = True
         to['use_tris'] = best[fro['use_tris']]

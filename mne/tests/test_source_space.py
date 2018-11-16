@@ -645,14 +645,38 @@ def test_combine_source_spaces():
                   verbose='error')
 
 
-@testing.requires_testing_data
+# @testing.requires_testing_data
 def test_morph_source_spaces():
     """Test morphing of source spaces."""
     src = read_source_spaces(fname_fs)
-    src_morph = read_source_spaces(fname_morph)
+    # src_morph = read_source_spaces(fname_morph)
     src_morph_py = morph_source_spaces(src, 'sample',
                                        subjects_dir=subjects_dir)
-    _compare_source_spaces(src_morph, src_morph_py, mode='approx')
+    #  _compare_source_spaces(src_morph, src_morph_py, mode='approx')
+
+    # select random pairs of points
+    n_sources = src[0]['nuse']
+    random_points = rng.randint(n_sources, size=(2000, 2))
+
+    # for each hemi, check if order of vertices wrt to x axis is preserved
+    for hemi in [0, 1]:
+        vert_fs = src[hemi]['vertno']
+        vert_morph = src_morph_py[hemi]['vertno']
+
+        # Get coordinates of selected points and compute list of pairwise
+        # distances
+        coords_fs = src[hemi]['rr'][vert_fs[random_points]]
+        dist_fs = np.linalg.norm(np.diff(coords_fs, axis=1), axis=-1)
+
+        coords_morph = src_morph_py[hemi]['rr'][vert_morph[random_points]]
+        dist_morph = np.linalg.norm(np.diff(coords_morph, axis=1), axis=-1)
+
+        # Compute largest distance
+        max_dist = max(dist_fs.max(), dist_fs.max())
+
+        # Check that distances between matched points do not exceed
+        # fraction of max_dist
+        assert abs(dist_fs - dist_morph).max() < 0.25 * max_dist
 
 
 @pytest.mark.slowtest
