@@ -1294,6 +1294,9 @@ def _limits_to_control_points(clim, stc_data, colormap, transparent,
             # subtract a tiny bit from point two.
             bump = 1e-5 if ctrl_pts[0] == ctrl_pts[1] else -1e-5
             ctrl_pts[1] = ctrl_pts[0] + bump * (ctrl_pts[2] - ctrl_pts[0])
+    if np.diff(ctrl_pts).min() / max(ctrl_pts) < 1e-2:
+        ctrl_pts[1] = (ctrl_pts[0] + ctrl_pts[2]) / 2
+        logger.info('Using control points %s' % (ctrl_pts,))
 
     # Construct cmap manually if 'mne' and get cmap bounds
     # and triage transparent argument
@@ -1656,7 +1659,6 @@ def plot_source_estimates(stc, subject=None, surface='inflated', hemi='lh',
     # convert control points to locations in colormap
     ctrl_pts, colormap, scale_pts, transparent = _limits_to_control_points(
         clim, stc.data, colormap, transparent)
-
     if hemi in ['both', 'split']:
         hemis = ['lh', 'rh']
     else:
