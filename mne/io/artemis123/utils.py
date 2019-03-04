@@ -3,7 +3,7 @@ import os.path as op
 from ...utils import logger
 from ...transforms import (rotation3d_align_z_axis, get_ras_to_neuromag_trans,
                            apply_trans)
-from ..meas_info import _make_dig_points
+from ...channels.digitization._utils import _make_dig_points
 
 
 def _load_mne_locs(fname=None):

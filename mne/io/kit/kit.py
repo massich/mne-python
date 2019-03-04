@@ -25,7 +25,8 @@ from ..base import BaseRaw
 from ..utils import _mult_cal_one
 from ...epochs import BaseEpochs
 from ..constants import FIFF
-from ..meas_info import _empty_info, _read_dig_points, _make_dig_points
+from ..meas_info import _empty_info
+from ...channels.digitization._utils import _read_dig_points, _make_dig_points
 from .constants import KIT, LEGACY_AMP_PARAMS
 from .coreg import read_mrk
 from ...event import read_events
