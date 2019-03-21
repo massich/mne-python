@@ -338,7 +338,7 @@ class RawArtemis123(BaseRaw):
             verbose=verbose)
         self.info['hpi_results'] = []
 
-        if add_head_trans:
+        if add_head_trans:  # XXX 5986: digitization?
             n_hpis = 0
             for d in info['hpi_subsystem']['hpi_coils']:
                 if d['event_bits'] == [256]:

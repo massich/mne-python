@@ -86,7 +86,7 @@ def _compute_mne_loc(coil_loc):
     return loc
 
 
-def _read_pos(fname):
+def _read_pos(fname):  # XXX 5986 (also all the functions in this file)
     """Read the .pos file and return positions as dig points."""
     nas = None
     lpa = None
