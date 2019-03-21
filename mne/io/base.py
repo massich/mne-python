@@ -2106,7 +2106,7 @@ class BaseRaw(ProjMixin, ContainsMixin, UpdateChannelsMixin, SetChannelsMixin,
         Does nothing for objects that close their file descriptors.
         Things like RawFIF will override this method.
         """
-        pass
+        pass  # noqa
 
     def copy(self):
         """Return copy of Raw instance."""
@@ -2598,26 +2598,27 @@ def _check_update_montage(info, montage, path=None, update_ch_names=False,
             err = ("Montage must be str, None, or instance of Montage. "
                    "%s was provided" % type(montage))
             raise TypeError(err)
-        if montage is not None:
-            if isinstance(montage, str):
-                montage = read_montage(montage, path=path)
-            _set_montage(info, montage, update_ch_names=update_ch_names)
 
-            missing_positions = []
-            exclude = (FIFF.FIFFV_EOG_CH, FIFF.FIFFV_MISC_CH,
-                       FIFF.FIFFV_STIM_CH)
-            for ch in info['chs']:
-                if not ch['kind'] in exclude:
-                    if not np.isfinite(ch['loc'][:3]).all():
-                        missing_positions.append(ch['ch_name'])
+        if isinstance(montage, str):
+            montage = read_montage(montage, path=path)
 
-            # raise error if positions are missing
-            if missing_positions and raise_missing:
-                raise KeyError(
-                    "The following positions are missing from the montage "
-                    "definitions: %s. If those channels lack positions "
-                    "because they are EOG channels use the eog parameter."
-                    % str(missing_positions))
+        _set_montage(info, montage, update_ch_names=update_ch_names)
+
+        missing_positions = []
+        exclude = (FIFF.FIFFV_EOG_CH, FIFF.FIFFV_MISC_CH,
+                   FIFF.FIFFV_STIM_CH)
+        for ch in info['chs']:
+            if not ch['kind'] in exclude:
+                if not np.isfinite(ch['loc'][:3]).all():
+                    missing_positions.append(ch['ch_name'])
+
+        # raise error if positions are missing
+        if missing_positions and raise_missing:
+            raise KeyError(
+                "The following positions are missing from the montage "
+                "definitions: %s. If those channels lack positions "
+                "because they are EOG channels use the eog parameter."
+                % str(missing_positions))
 
 
 def _check_maxshield(allow_maxshield):
