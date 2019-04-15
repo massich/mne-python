@@ -496,7 +496,8 @@ class Info(dict):
 
     def __repr__(self):
         """Summarize info instead of printing all."""
-        from mne.channels.digitization.digitization import (_dig_kind_dict, _dig_kind_ints, _dig_kind_proper, _dig_kind_rev, _cardinal_kind_rev,)
+        from mne.channels.digitization import (_dig_kind_dict, _dig_kind_ints,
+            _dig_kind_proper, _dig_kind_rev, _cardinal_kind_rev,)
 
         strs = ['<Info | %s non-empty fields']
         non_empty = 0

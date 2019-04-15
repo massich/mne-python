@@ -28,7 +28,7 @@ from mne import __version__
 
 b = bytes  # alias
 
-from .digitization import _format_dig_points, DigPoint
+from .base import _format_dig_points, DigPoint
 
 def _read_dig_fif(fid, meas_info):
     """Read digitizer data from a FIFF file."""
