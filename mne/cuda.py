@@ -89,7 +89,7 @@ def _setup_cuda_fft_multiply_repeated(n_jobs, h, n_fft,
 
     Parameters
     ----------
-    %(n_jobs-cuda)s
+    %(n_jobs-cuda)
     h : array
         The filtering function that will be used repeatedly.
     n_fft : int
