@@ -439,9 +439,7 @@ class FilterEstimator(TransformerMixin):
     %(filter_length)s
     %(l_trans_bandwidth)s
     %(h_trans_bandwidth)s
-    n_jobs : int | str
-        Number of jobs to run in parallel.
-        Can be 'cuda' if ``cupy`` is installed properly and method='fir'.
+    %(n_jobs-fir)
     method : str
         'fir' will use overlap-add FIR filtering, 'iir' will use IIR
         forward-backward filtering (via filtfilt).
@@ -731,9 +729,7 @@ class TemporalFilter(TransformerMixin):
             min(max(h_freq * 0.25, 2.), info['sfreq'] / 2. - h_freq)
 
         Only used for ``method='fir'``.
-    n_jobs : int | str, default 1
-        Number of jobs to run in parallel.
-        Can be 'cuda' if ``cupy`` is installed properly and method='fir'.
+    %(n_jobs-fir)
     method : str, default 'fir'
         'fir' will use overlap-add FIR filtering, 'iir' will use IIR
         forward-backward filtering (via filtfilt).

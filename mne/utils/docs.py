@@ -140,16 +140,6 @@ method : str
     'fir' will use overlap-add FIR filtering, 'iir' will use IIR
     forward-backward filtering (via filtfilt).
 """
-docdict['n_jobs-fir'] = """
-n_jobs : int | str
-    Number of jobs to run in parallel. Can be 'cuda' if ``cupy``
-    is installed properly and method='fir'.
-"""
-docdict['n_jobs-cuda'] = """
-n_jobs : int | str
-    Number of jobs to run in parallel. Can be 'cuda' if ``cupy``
-    is installed properly.
-"""
 docdict['iir_params'] = """
 iir_params : dict | None
     Dictionary of parameters to use for IIR filtering.
@@ -166,6 +156,24 @@ docdict['window-resample'] = """
 window : str | tuple
     Frequency-domain window to use in resampling.
     See :func:`scipy.signal.resample`.
+"""
+
+# Parallel
+docdict['n_jobs'] = """
+n_jobs : int
+    The number of jobs to run in parallel (default 1).
+    Requires the joblib package.
+"""
+docdict['n_jobs-cuda'] = """
+n_jobs : int | str
+    The number of jobs to run in parallel (default 1).
+    Can be 'cuda' if ``cupy`` is installed properly.
+"""
+docdict['n_jobs-fir'] = """
+n_jobs : int | str
+    The number of jobs to run in parallel (default 1).
+    Can be 'cuda' if ``cupy`` is installed properly and
+    ``method='fir'``.
 """
 
 # Rank
@@ -216,11 +224,6 @@ head_pos : None | str | dict | tuple | array
     same format as data returned by `head_pos_to_trans_rot_t`.
     If array, should be of the form returned by
     :func:`mne.chpi.read_head_pos`.
-"""
-docdict['n_jobs'] = """
-n_jobs : int
-    The number of jobs to run in parallel (default 1).
-    Requires the joblib package.
 """
 
 # Random state

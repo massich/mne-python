@@ -13,7 +13,7 @@ from .fixes import get_sosfiltfilt, minimum_phase, _sosfreqz
 from .parallel import parallel_func, check_n_jobs
 from .time_frequency.multitaper import _mt_spectra, _compute_mt_params
 from .utils import (logger, verbose, sum_squared, check_version, warn, _pl,
-                    _check_preload, _validate_type, _check_option)
+                    _check_preload, _validate_type, _check_option, fill_doc)
 
 # These values from Ifeachor and Jervis.
 _length_factors = dict(hann=3.1, hamming=3.3, blackman=5.0)
@@ -121,6 +121,7 @@ def next_fast_len(target):
     return match
 
 
+@fill_doc
 def _overlap_add_filter(x, h, n_fft=None, phase='zero', picks=None,
                         n_jobs=1, copy=True, pad='reflect_limited'):
     """Filter the signal x using h with overlap-add FFTs.
@@ -142,9 +143,7 @@ def _overlap_add_filter(x, h, n_fft=None, phase='zero', picks=None,
         filter will be used.
     picks : list | None
         See calling functions.
-    n_jobs : int | str
-        Number of jobs to run in parallel. Can be 'cuda' if ``cupy``
-        is installed properly.
+    %(n_jobs-cuda)
     copy : bool
         If True, a copy of x, filtered, is returned. Otherwise, it operates
         on x in place.
@@ -1348,7 +1347,7 @@ def resample(x, up=1., down=1., npad=100, axis=-1, window='boxcar', n_jobs=1,
     axis : int
         Axis along which to resample (default is the last axis).
     %(window-resample)s
-    %(n_jobs-cuda)s
+    %(n_jobs-cuda)
     %(pad-fir)s
         The default is ``'reflect_limited'``.
 

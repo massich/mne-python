@@ -564,9 +564,7 @@ def tf_lcmv(epochs, forward, noise_covs, tmin, tmax, tstep, win_lengths,
         is fixed, a scalar beamformer is computed. If the forward model has
         free orientation, a vector beamformer is computed, combining the output
         for all source orientations.
-    n_jobs : int | str
-        Number of jobs to run in parallel.
-        Can be 'cuda' if ``cupy`` is installed properly.
+    %(n_jobs-cuda)
     rank : int | None | 'full'
         This controls the effective rank of the covariance matrix when
         computing the inverse. The rank can be set explicitly by specifying an

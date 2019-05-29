@@ -12,9 +12,10 @@ from scipy import linalg
 from .base import get_coef, BaseEstimator, _check_estimator
 from .time_delaying_ridge import TimeDelayingRidge
 from ..fixes import is_regressor
-from ..utils import _validate_type, verbose
+from ..utils import _validate_type, verbose, fill_doc
 
 
+@fill_doc
 class ReceptiveField(BaseEstimator):
     """Fit a receptive field model.
 
@@ -52,9 +53,7 @@ class ReceptiveField(BaseEstimator):
         If True, inverse coefficients will be computed upon fitting using the
         covariance matrix of the inputs, and the cross-covariance of the
         inputs/outputs, according to [5]_. Defaults to False.
-    n_jobs : int | str
-        Number of jobs to run in parallel. Can be 'cuda' if CuPy
-        is installed properly and ``estimator is None``.
+    %(n_jobs-cuda)
 
         .. versionadded:: 0.18
     edge_correction : bool

@@ -5,7 +5,7 @@
 import numpy as np
 
 from .utils import (sizeof_fmt, logger, get_config, warn, _explain_exception,
-                    verbose)
+                    verbose, fill_doc)
 
 
 _cuda_capable = False
@@ -82,15 +82,14 @@ def init_cuda(ignore_config=False, verbose=None):
 ###############################################################################
 # Repeated FFT multiplication
 
+@fill_doc
 def _setup_cuda_fft_multiply_repeated(n_jobs, h, n_fft,
                                       kind='FFT FIR filtering'):
     """Set up repeated CUDA FFT multiplication with a given filter.
 
     Parameters
     ----------
-    n_jobs : int | str
-        If n_jobs == 'cuda', the function will attempt to set up for CUDA
-        FFT multiplication.
+    %(n_jobs-cuda)s
     h : array
         The filtering function that will be used repeatedly.
     n_fft : int
@@ -176,14 +175,13 @@ def _fft_multiply_repeated(x, cuda_dict):
 ###############################################################################
 # FFT Resampling
 
+@fill_doc
 def _setup_cuda_fft_resample(n_jobs, W, new_len):
     """Set up CUDA FFT resampling.
 
     Parameters
     ----------
-    n_jobs : int | str
-        If n_jobs == 'cuda', the function will attempt to set up for CUDA
-        FFT resampling.
+    %(n_jobs-cuda)
     W : array
         The filtering function to be used during resampling.
         If n_jobs='cuda', this function will be shortened (since CUDA
