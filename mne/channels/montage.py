@@ -525,6 +525,26 @@ class DigMontage(object):
         _data = _foo_get_data_from_dig(self.dig)  # XXX: dig_ch_pos will always be None. I'm not sure if I'm breaking something. # noqa
         _data['point_names'] = self.point_names  # XXX: this attribute should remain  # noqa
 
+        # Test
+        from mne.utils import object_diff
+        from copy import deepcopy
+        _xxx = _digmontage_to_bunch(self)
+        my_diff = object_diff(_data.dig_ch_pos, _xxx.dig_ch_pos)
+        assert my_diff == ''
+        original_dig_ch_pos = deepcopy(_data.dig_ch_pos)
+
+        # Original operation
+        _data = _transform_to_head_call(_data)
+
+        # more test
+        max_diff = np.array(
+            [abs(_data.dig_ch_pos[kk] - original_dig_ch_pos[kk])
+             for kk in _data.dig_ch_pos.keys()]
+        ).max()
+        assert max_diff < 1e-7  # This shows that this is never called with a real transformation # noqa
+
+        _data_copy = deepcopy(_data)
+
         self.coord_frame = _data.coord_frame
         self.dig_ch_pos = _data.dig_ch_pos
 
@@ -532,6 +552,8 @@ class DigMontage(object):
             nasion=_data.nasion, lpa=_data.lpa, rpa=_data.rpa, hpi=_data.elp,
             extra_points=_data.hsp, dig_ch_pos=_data.dig_ch_pos
         )
+
+        assert object_diff(_data_copy, _data) == ''
 
     def _compute_dev_head_t(self):
         """Compute the Neuromag dev_head_t from matched points."""
