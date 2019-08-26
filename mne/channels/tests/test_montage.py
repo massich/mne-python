@@ -73,6 +73,7 @@ nicolet_fname = op.join(io_dir, 'nicolet', 'tests', 'data',
                         'test_nicolet_raw.data')
 
 
+# XXX: prefer mne.channels._dig_montage_utils._get_fid_coords()
 def test_fiducials():
     """Test handling of fiducials."""
     # Eventually the code used here should be unified with montage.py, but for
@@ -926,5 +927,30 @@ def test_make_dig_montage_errors():
         _ = DigMontage(ch_names=['foo', 'bar'], dig=Digitization())
     with pytest.raises(TypeError, match='must be an instance of Digitization'):
         _ = DigMontage(ch_names=['foo', 'bar'], dig=None)
+
+# XXX: This comes from test_meas_info
+from mne._digitization._utils import _read_dig_points
+def test_read_dig_polhemus():
+    """Test reading Polhemus data."""
+    extra_points = _read_dig_points(hsp)  # _fname)
+    info = create_info(ch_names=['Test Ch'], sfreq=1000., ch_types=None)
+    assert info['dig'] is None
+
+    # XXX: this shows that we can populate info['dig'] directly.
+    #      Should we forbade that and force `set_montage` ??
+    info['dig'] = _make_dig_points(extra_points=extra_points)
+    assert (info['dig'])
+    assert_allclose(info['dig'][0]['r'], [-.10693, .09980, .06881])
+
+    elp_points = _read_dig_points(elp)  # _fname)
+    nasion, lpa, rpa = elp_points[:3]
+    info = create_info(ch_names=['Test Ch'], sfreq=1000., ch_types=None)
+    assert info['dig'] is None
+
+    info['dig'] = _make_dig_points(nasion, lpa, rpa, elp_points[3:], None)
+    assert (info['dig'])
+    idx = [d['ident'] for d in info['dig']].index(FIFF.FIFFV_POINT_NASION)
+    assert_array_equal(info['dig'][idx]['r'],
+                       np.array([.0013930, .0131613, -.0046967]))
 
 run_tests_if_main()

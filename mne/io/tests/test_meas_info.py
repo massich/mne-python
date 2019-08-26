@@ -288,6 +288,8 @@ def test_make_dig_points():
     info = create_info(ch_names=['Test Ch'], sfreq=1000., ch_types=None)
     assert info['dig'] is None
 
+    # XXX: this shows that we can populate info['dig'] directly.
+    #      Should we forbade that and force `set_montage` ??
     info['dig'] = _make_dig_points(extra_points=extra_points)
     assert (info['dig'])
     assert_allclose(info['dig'][0]['r'], [-.10693, .09980, .06881])

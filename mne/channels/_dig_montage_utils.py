@@ -187,6 +187,7 @@ def _foo_get_data_from_dig(dig):
     )
 
 
+# XXX: from mne.viz._3d import _fiducial_coords
 def _get_fid_coords(dig):
     fid_coords = dict()
     fid_coord_frames = []
