@@ -424,6 +424,27 @@ def test_read_dig_polhemus():
     assert object_diff(montage.ch_names, montage_polhemus.ch_names) == ''
 
 
+def test_read_dig_polhemus_isotrack():
+    """Test reading polhemus isotrack files."""
+    # Make sure new reader produces the same as old `read_dig_montage`
+    # XXX: `read_dig_montage` was not tested against
+    #      `mne/io/kit/tests/data/test.hsp` (or `test.elp`) this was only
+    #      tested in through the kit reader in (test_kit.py::test_hsp_elp).
+
+    foo = read_dig_montage(hsp=op.join(kit_dir, 'test.hsp'), transform=False)
+    bar = read_dig_montage(elp=op.join(kit_dir, 'test.elp'), transform=False)
+
+    # XXX: check whatever is currently done
+    assert foo.__repr__() == (
+        '<DigMontage | '
+        '500 extras (headshape), 0 HPIs, 0 fiducials, 0 channels>'
+    )
+    assert bar.__repr__() == (
+        '<DigMontage | '
+        '0 extras (headshape), 8 HPIs, 0 fiducials, 0 channels>'
+    )
+
+
 def test_read_dig_montage():
     """Test read_dig_montage."""
     names = ['nasion', 'lpa', 'rpa', '1', '2', '3', '4', '5']
