@@ -423,6 +423,9 @@ def test_read_dig_polhemus():
     assert montage.dig == montage_polhemus.dig[:-5]
     assert object_diff(montage.ch_names, montage_polhemus.ch_names) == ''
 
+def read_dig_polhemus_isotrack(fnames, ch_names=None):
+    """Create DigMontage from isotrack files."""
+    return list()
 
 def test_read_dig_polhemus_isotrack():
     """Test reading polhemus isotrack files."""
@@ -443,6 +446,25 @@ def test_read_dig_polhemus_isotrack():
         '<DigMontage | '
         '0 extras (headshape), 8 HPIs, 0 fiducials, 0 channels>'
     )
+
+    # New behavior
+    fnames = [
+        op.join(kit_dir, 'test.{}'.format(ext)) for ext in ('hsp', 'elp')
+    ]
+    montage = read_dig_polhemus_isotrack(fnames=fnames, ch_names=None)
+    assert montage.__repr__() == (
+        '<DigMontage | '
+        '500 extras (headshape), 0 HPIs, 3 fiducials, 0 channels>'
+    )
+    montage = read_dig_polhemus_isotrack(
+        fnames=fnames,
+        ch_names=['eeg{03d}'.format(ii) for ii in range(500)],
+    )
+    assert montage.__repr__() == (
+        '<DigMontage | '
+        '0 extras (headshape), 0 HPIs, 3 fiducials, 500 channels>'
+    )
+
 
 
 def test_read_dig_montage():
